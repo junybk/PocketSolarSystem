@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <link rel="icon" href="assets/icon.svg">
+    <title>Pocket Solar System</title>
+    <meta name="description" content="マウス・タッチで操作する3D太陽系シミュレーション">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Pocket Solar System">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0">
+    <link rel="stylesheet" href="style.css">
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+    <div id="loading">
+        読み込み中...
+    </div>
+
+    <!-- 左サイドメニュー -->
+    <aside id="side-menu" class="side-menu" aria-label="メインメニュー">
+        <div class="side-menu-inner">
+            <header class="side-menu-header">
+                <h1 class="app-title">
+                    <img src="assets/icon.svg" alt="" class="app-title-icon" aria-hidden="true">
+                    <span>Pocket Solar System</span>
+                </h1>
+                <button type="button" id="side-menu-toggle" class="side-menu-toggle" aria-label="メニューを開く"
+                    aria-controls="side-menu" aria-expanded="false">
+                    <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+                </button>
+            </header>
+            <div class="side-menu-content">
+                <section class="side-menu-section" aria-label="操作説明">
+                    <p class="help-line"><span class="op-icon material-symbols-outlined" aria-hidden="true">open_with</span> ドラッグ：回転（太陽系全体）</p>
+                    <p class="help-line"><span class="op-icon material-symbols-outlined" aria-hidden="true">zoom_in</span> ホイール / ピンチ：ズーム</p>
+                    <p class="help-line"><span class="op-icon material-symbols-outlined" aria-hidden="true">touch_app</span> タップ / クリック：説明を表示</p>
+                </section>
+
+                <section class="side-menu-section side-menu-toggles">
+                    <div class="label-switch">
+                        <label class="switch-label">
+                            <span>ラベル：</span>
+                            <div class="switch-toggle active" id="label-toggle">
+                                <div class="switch-slider"></div>
+                            </div>
+                            <span id="label-status">表示</span>
+                        </label>
+                    </div>
+                </section>
+
+                <section class="side-menu-section app-note" aria-label="表現方針">
+                    <p class="app-note-text">
+                        このアプリは、天体の相対的なサイズ・自転・公転速度の違いを
+                        直感的に比較できるよう設計しています。
+                    </p>
+                    <p class="app-note-text">
+                        ただし、見やすさのためにカメラ距離や時間スケールなど一部は
+                        可視化向けに調整しています。
+                    </p>
+                </section>
+
+                <section class="side-menu-section planet-menu-section" aria-label="天体一覧">
+                    <h2 class="planet-menu-heading">天体を表示</h2>
+                    <nav id="planet-menu-list" class="planet-menu-list"></nav>
+                </section>
+            </div>
+        </div>
+    </aside>
+
+    <div id="canvas-container"></div>
+
+    <div id="planet-info-panel" class="planet-info-panel">
+        <div class="planet-info-header">
+            <h2 id="planet-info-name"></h2>
+            <button type="button" id="planet-info-close" class="planet-info-close">×</button>
+        </div>
+        <div id="planet-info-content" class="planet-info-content"></div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>

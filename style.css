@@ -1,0 +1,813 @@
+/* ========================================
+   基本設定
+   ======================================== */
+
+/**
+ * ページ全体の基本スタイル
+ * フルスクリーン表示で、スクロールを無効化
+ */
+:root {
+    --side-menu-width: min(300px, 42vw);
+    /* くすみカラー（スモーキー・モーヴ・セージ系） */
+    --muted-ink: #2a262c;
+    --muted-base: #35303c;
+    --muted-surface: #3f3948;
+    --muted-elevated: #4a4354;
+    --muted-border: rgba(200, 188, 205, 0.22);
+    --muted-border-soft: rgba(180, 170, 190, 0.14);
+    --muted-text: #ebe6ef;
+    --muted-text-sub: #a69dad;
+    --muted-dust-rose: #c4a8ae;
+    --muted-sage: #8f9f92;
+    --muted-lavender: #9d92b0;
+    --muted-mauve: #8b7f9a;
+    --muted-blush: rgba(196, 168, 174, 0.18);
+    --muted-sage-glow: rgba(143, 159, 146, 0.35);
+    /* アクセント（くすみゴールド・コーラル・セージ） */
+    --accent-gold: #c9a86c;
+    --accent-gold-soft: rgba(201, 168, 108, 0.35);
+    --accent-coral: #c49a8e;
+    --accent-coral-soft: rgba(196, 154, 142, 0.28);
+    --accent-sage-bright: #8fb39a;
+    --accent-lilac: #a898c8;
+}
+
+body {
+    margin: 0;
+    overflow: hidden; /* スクロールバーを非表示 */
+    background-color: #000; /* 黒背景 */
+    font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic UI', 'Yu Gothic', 'Meiryo', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    user-select: none; /* テキスト選択を無効化 */
+}
+
+/* ========================================
+   レイアウト要素
+   ======================================== */
+
+/**
+ * 左サイドメニュー（くすみトーン・グラデーション）
+ */
+.side-menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--side-menu-width);
+    height: 100%;
+    z-index: 5;
+    background: linear-gradient(
+        165deg,
+        var(--muted-surface) 0%,
+        var(--muted-base) 42%,
+        var(--muted-ink) 100%
+    );
+    border-right: 1px solid var(--muted-border);
+    box-shadow: 4px 0 24px rgba(20, 12, 28, 0.45);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    pointer-events: auto;
+}
+
+.side-menu-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    padding: 1rem 0.95rem 1.1rem;
+    overflow: hidden;
+    gap: 0.2rem;
+}
+
+.side-menu-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    flex: 1;
+}
+
+.side-menu-header {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--muted-border-soft);
+    margin-bottom: 0.35rem;
+}
+
+.app-title {
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--muted-text);
+    line-height: 1.45;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.app-title-icon {
+    width: 1.45rem;
+    height: 1.45rem;
+    flex-shrink: 0;
+    display: block;
+}
+
+.side-menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    border: 1px solid var(--muted-border-soft);
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--muted-text);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.side-menu-toggle:hover {
+    background: var(--muted-blush);
+    border-color: rgba(196, 168, 174, 0.35);
+}
+
+.side-menu-toggle .material-symbols-outlined {
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.side-menu-section {
+    flex-shrink: 0;
+    margin-bottom: 0.65rem;
+}
+
+.app-note {
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid var(--muted-border-soft);
+    border-radius: 12px;
+    padding: 0.55rem 0.68rem 0.62rem;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.app-note-text {
+    margin: 0;
+    font-size: 0.69rem;
+    line-height: 1.5;
+    color: var(--muted-text-sub);
+}
+
+.app-note-text + .app-note-text {
+    margin-top: 0.36rem;
+}
+
+/* 操作説明ブロック：カード風 */
+/*.side-menu-inner > section.side-menu-section:first-of-type {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--muted-border-soft);
+    border-radius: 12px;
+    padding: 0.65rem 0.7rem 0.7rem;
+    margin-bottom: 0.75rem;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}*/
+
+.planet-menu-section {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+    background: rgba(0, 0, 0, 0.12);
+    border: 1px solid var(--muted-border-soft);
+    border-radius: 12px;
+    padding: 0.65rem 0.55rem 0.55rem;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.planet-menu-heading {
+    margin: 0 0 0.55rem 0;
+    padding: 0 0.2rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted-text-sub);
+}
+
+.planet-menu-list {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 2px 4px 4px 2px;
+    margin: 0;
+}
+
+.planet-menu-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.planet-menu-list::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+}
+
+.planet-menu-list::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--muted-lavender), var(--muted-mauve));
+    border-radius: 4px;
+    opacity: 0.6;
+}
+
+.planet-menu-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.5rem 0.65rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    color: var(--muted-text);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--muted-border-soft);
+    border-radius: 8px;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.18s ease;
+}
+
+.planet-menu-item:hover {
+    background: var(--muted-blush);
+    border-color: rgba(196, 168, 174, 0.35);
+    box-shadow: 0 2px 8px rgba(30, 20, 35, 0.2);
+    transform: translateY(-1px);
+}
+
+.planet-menu-item.active {
+    background: linear-gradient(
+        135deg,
+        rgba(157, 146, 176, 0.45) 0%,
+        rgba(143, 159, 146, 0.38) 100%
+    );
+    border-color: rgba(200, 188, 210, 0.45);
+    color: #faf8fc;
+    box-shadow:
+        0 2px 12px var(--muted-sage-glow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/*.side-menu-toggles {
+    padding: 0.55rem 0.45rem 0.5rem;
+    margin-bottom: 0.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--muted-border-soft);
+    border-radius: 12px;
+}*/
+
+.side-menu-toggles .label-switch {
+    margin-top: 0;
+}
+
+/**
+ * Three.js キャンバスのコンテナ（サイドメニュー分右にずらす）
+ */
+#canvas-container {
+    position: absolute;
+    top: 0;
+    left: var(--side-menu-width);
+    width: calc(100% - var(--side-menu-width));
+    height: 100%;
+    z-index: 1; /* 最下層（背景） */
+    touch-action: none; /* タッチでページがスクロールしないよう抑止（script でも設定） */
+}
+
+/**
+ * ローディング画面
+ * 画面中央に表示（z-index: 10、最前面）
+ */
+#loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 中央揃え */
+    color: white;
+    font-size: 1.5rem;
+    text-align: center;
+    z-index: 10; /* 最前面 */
+    background: rgba(0, 0, 0, 0.8); /* 半透明の黒背景 */
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/**
+ * 地球視点固定モード時：ヘルプ・天体一覧を薄くし、リスト操作を無効化
+ */
+#side-menu.gestures-disabled .help-line,
+#side-menu.gestures-disabled .planet-menu-heading,
+#side-menu.gestures-disabled .planet-menu-item {
+    opacity: 0.42;
+}
+
+#side-menu.gestures-disabled .planet-menu-item {
+    pointer-events: none;
+}
+
+/**
+ * 操作説明の行
+ */
+.help-line {
+    margin: 5px 0;
+    font-size: 0.78rem;
+    color: var(--muted-text-sub);
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    line-height: 1.45;
+}
+
+/**
+ * 操作説明の行頭アイコン（Material Symbols）
+ */
+.op-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.35rem;
+    height: 1.35rem;
+    font-size: 0.98rem;
+    line-height: 1;
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 450,
+        'GRAD' 0,
+        'opsz' 24;
+    color: var(--muted-dust-rose);
+    background: rgba(196, 168, 174, 0.12);
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+/**
+ * ステータスバッジ（デフォルト状態）
+ * カメラの状態を表示
+ */
+.status-badge {
+    display: inline-block;
+    padding: 0.35rem 0.65rem;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--muted-border-soft);
+    border-radius: 999px;
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    margin-top: 0.65rem;
+    margin-bottom: 0;
+    color: var(--muted-text-sub);
+}
+
+/**
+ * ステータスバッジ（アクティブ状態）
+ */
+.status-active {
+    background: linear-gradient(
+        120deg,
+        rgba(157, 146, 176, 0.55) 0%,
+        rgba(143, 159, 146, 0.5) 100%
+    );
+    border-color: rgba(200, 188, 210, 0.35);
+    color: var(--muted-text);
+    box-shadow: 0 2px 10px rgba(40, 32, 48, 0.25);
+}
+
+/* ========================================
+   スイッチコントロール
+   ======================================== */
+
+/**
+ * ラベル表示切り替えスイッチ
+ * pointer-events: auto でクリック可能にする（親の pointer-events: none を上書き）
+ */
+.label-switch {
+    margin-top: 10px;
+    pointer-events: auto; /* クリック可能 */
+}
+
+/**
+ * カメラモード切り替えスイッチ
+ * pointer-events: auto でクリック可能にする
+ */
+.camera-switch {
+    margin-top: 12px;
+    pointer-events: auto; /* クリック可能 */
+}
+
+/**
+ * 惑星ラベル（Three.js CSS2DRenderer で生成される）
+ * 改行を防ぐ
+ */
+.planet-label {
+    white-space: nowrap; /* 改行しない */
+    font-size: 0.875rem;
+}
+
+/**
+ * マテリアル切り替えスイッチ（将来の拡張用）
+ */
+.material-switch {
+    margin-top: 10px;
+    pointer-events: auto;
+}
+
+/**
+ * スイッチのラベルコンテナ
+ * flexbox でラベル、スイッチ、ステータスを横並びに配置
+ */
+.switch-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.82rem;
+    color: var(--muted-text);
+    letter-spacing: 0.02em;
+    cursor: pointer; /* ポインターカーソル */
+}
+
+/**
+ * スイッチのトグル部分（背景）
+ * トグルスライダーのコンテナ
+ */
+.switch-toggle {
+    position: relative;
+    width: 50px;
+    height: 24px;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--muted-border-soft);
+    border-radius: 12px; /* 角丸（高さの半分） */
+    transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+/**
+ * スイッチのアクティブ状態（くすみセージ × ラベンダー）
+ */
+.switch-toggle.active {
+    background: linear-gradient(
+        125deg,
+        rgba(157, 146, 176, 0.85) 0%,
+        rgba(143, 159, 146, 0.8) 100%
+    );
+    border-color: rgba(210, 200, 220, 0.35);
+    box-shadow: 0 2px 8px var(--muted-sage-glow);
+}
+
+/**
+ * スイッチのスライダー（白い丸）
+ * スイッチの左側に配置
+ */
+.switch-slider {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(145deg, #faf8fa 0%, #e8e4ec 100%);
+    border-radius: 50%; /* 円形 */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    transition: transform 0.3s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+/**
+ * スイッチがアクティブな時のスライダー位置
+ * 右側に移動（26px = 50px - 20px - 2px * 2）
+ */
+.switch-toggle.active .switch-slider {
+    transform: translateX(26px); /* 右に移動 */
+}
+
+/* ========================================
+   星の説明表示パネル
+   ======================================== */
+
+/**
+ * 星の説明表示パネル
+ * 画面右下に表示（z-index: 6）
+ */
+.planet-info-panel {
+    --panel-accent: var(--accent-coral);
+    position: absolute;
+    bottom: 20px;
+    left: calc(var(--side-menu-width) + 16px);
+    width: min(380px, calc(100% - var(--side-menu-width) - 32px));
+    max-height: 60vh;
+    background: linear-gradient(
+        155deg,
+        rgba(63, 57, 72, 0.94) 0%,
+        rgba(42, 38, 44, 0.96) 100%
+    );
+    border: 1px solid var(--muted-border);
+    /* border-left: 4px solid var(--panel-accent); */
+    border-radius: 14px;
+    padding: 1.35rem 1.45rem;
+    padding-top: 1.5rem;
+    color: var(--muted-text);
+    z-index: 6;
+    display: none; /* 初期状態は非表示 */
+    overflow-x: hidden;
+    overflow-y: auto;
+    backdrop-filter: blur(14px) saturate(1.1);
+    box-shadow:
+        0 8px 32px rgba(20, 12, 28, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        -2px 0 20px var(--accent-gold-soft);
+    transition:
+        opacity 0.3s ease-out,
+        transform 0.3s ease-out,
+        border-left-color 0.35s ease;
+}
+
+/* 天体ごとのパネルアクセント（くすみトーン） */
+.planet-info-panel[data-info-body='Sun'] { --panel-accent: #e4b84a; }
+.planet-info-panel[data-info-body='Mercury'] { --panel-accent: #a8a5b2; }
+.planet-info-panel[data-info-body='Venus'] { --panel-accent: #c9a896; }
+.planet-info-panel[data-info-body='Earth'] { --panel-accent: #6d9e8a; }
+.planet-info-panel[data-info-body='Mars'] { --panel-accent: #b87a6a; }
+.planet-info-panel[data-info-body='Jupiter'] { --panel-accent: #c4a060; }
+.planet-info-panel[data-info-body='Saturn'] { --panel-accent: #c9b87a; }
+.planet-info-panel[data-info-body='Uranus'] { --panel-accent: #7eb0c4; }
+.planet-info-panel[data-info-body='Neptune'] { --panel-accent: #6a8ec4; }
+.planet-info-panel[data-info-body='Pluto'] { --panel-accent: #a898b8; }
+.planet-info-panel[data-info-body='Moon'] { --panel-accent: #b0c0c8; }
+.planet-info-panel[data-info-body='ISS'] { --panel-accent: #c4b8a8; }
+
+
+/**
+ * パネルが表示されている状態
+ */
+.planet-info-panel.visible {
+    display: block;
+    animation: slideInUp 0.3s ease-out;
+    opacity: 1;
+    transform: scale(1);
+}
+
+/**
+ * パネルの切り替え中
+ */
+.planet-info-panel.switching {
+    transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+}
+
+/**
+ * パネルのヘッダー部分
+ */
+.planet-info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.55rem;
+    border-bottom: 1px solid var(--muted-border-soft);
+}
+
+/**
+ * パネルのタイトル
+ */
+.planet-info-header h2 {
+    margin: 0;
+    font-size: 1.35rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--muted-text);
+}
+
+.planet-info-header h2::after {
+    content: '';
+    display: block;
+    margin-top: 0.4rem;
+    width: 2.75rem;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--panel-accent);
+    opacity: 0.9;
+}
+
+/**
+ * 閉じるボタン
+ */
+.planet-info-close {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--muted-border-soft);
+    color: var(--muted-text-sub);
+    font-size: 1.35rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.planet-info-close:hover {
+    background: var(--muted-blush);
+    border-color: rgba(196, 168, 174, 0.35);
+    color: var(--muted-text);
+}
+
+/**
+ * パネルのコンテンツ部分
+ */
+.planet-info-content {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    letter-spacing: 0.02em;
+    transition: opacity 0.2s ease-out;
+}
+
+/* 数値スペックグリッド */
+.planet-facts-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 0 0 1rem 0;
+    padding: 0.65rem 0.75rem;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.05) 0%,
+        rgba(201, 168, 108, 0.06) 100%
+    );
+    border: 1px solid var(--muted-border-soft);
+    border-radius: 10px;
+    /* border-left: 3px solid var(--panel-accent); */
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.planet-fact-row {
+    display: grid;
+    grid-template-columns: minmax(5.5rem, 38%) 1fr;
+    gap: 0.5rem 0.75rem;
+    padding: 0.45rem 0;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    border-bottom: 1px solid var(--muted-border-soft);
+    align-items: start;
+}
+
+.planet-fact-row:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.planet-fact-row:first-of-type {
+    padding-top: 0;
+}
+
+.planet-fact-row-sub .planet-fact-value {
+    font-size: 0.76rem;
+    color: var(--muted-text-sub);
+}
+
+.planet-fact-label {
+    font-weight: 600;
+    color: var(--panel-accent);
+    letter-spacing: 0.03em;
+    font-size: 0.72rem;
+}
+
+.planet-fact-value {
+    color: rgba(240, 236, 245, 0.94);
+    font-weight: 400;
+}
+
+.planet-description {
+    margin: 0;
+    padding-top: 0.85rem;
+    color: rgba(235, 230, 239, 0.9);
+    font-size: 0.84rem;
+    line-height: 1.7;
+    border-top: 1px solid rgba(201, 168, 108, 0.12);
+}
+
+.planet-info-content p.planet-description {
+    margin: 0;
+}
+
+.planet-info-content strong {
+    color: var(--muted-dust-rose);
+    font-weight: 600;
+}
+
+
+/**
+ * スライドインアニメーション
+ */
+@keyframes slideInUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 760px) {
+    .side-menu {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--muted-border);
+        box-shadow: 0 6px 28px rgba(20, 12, 28, 0.5);
+        transition: height 0.32s cubic-bezier(0.22, 0.9, 0.25, 1);
+    }
+
+    .side-menu-toggle {
+        display: inline-flex;
+    }
+
+    .side-menu-inner {
+        position: relative;
+        padding: 0.7rem 0.62rem 0.75rem;
+        overflow: hidden;
+    }
+
+    #canvas-container {
+        left: 0;
+        width: 100%;
+        top: min(47vh, 360px);
+        height: calc(100% - min(47vh, 360px));
+        transition: top 0.32s cubic-bezier(0.22, 0.9, 0.25, 1), height 0.32s cubic-bezier(0.22, 0.9, 0.25, 1);
+    }
+
+    .side-menu.menu-collapsed {
+        height: 58px;
+    }
+
+    .side-menu.menu-collapsed .side-menu-header {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+    .side-menu-content {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 56px;
+        bottom: 0;
+        padding: 0.75rem;
+        box-sizing: border-box;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        transform: translateX(-108%);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.32s cubic-bezier(0.22, 0.9, 0.25, 1), opacity 0.22s ease;
+    }
+
+    .side-menu:not(.menu-collapsed) .side-menu-content {
+        transform: translateX(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .side-menu.menu-collapsed + #canvas-container {
+        top: 58px;
+        height: calc(100% - 58px);
+    }
+
+    .planet-info-panel {
+        left: 10px;
+        width: calc(100% - 20px);
+        max-height: 42vh;
+        bottom: 10px;
+        padding: 0.95rem 1rem;
+        border-radius: 12px;
+        box-sizing: border-box;
+    }
+
+    .planet-info-header h2 {
+        font-size: 1.08rem;
+    }
+
+    .planet-info-content {
+        font-size: 0.82rem;
+        line-height: 1.56;
+    }
+
+    .planet-description {
+        font-size: 0.79rem;
+        line-height: 1.6;
+    }
+}
+
